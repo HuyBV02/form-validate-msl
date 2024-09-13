@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Registration Form</title>
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+            integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+        <link rel="stylesheet" href="/assets/scss/index.css" />
+    </head>
+    <body>
+        <div id="toast"></div>
+        <div class="main">
+            <form action="" method="POST" class="form" id="form-1">
+                <h3 class="heading">Thành viên đăng ký</h3>
+
+                <div class="spacer"></div>
+
+                <div class="form-group">
+                    <label for="fullname" class="form-label">Tên đầy đủ</label>
+                    <input
+                        id="fullname"
+                        name="fullname"
+                        type="text"
+                        placeholder="VD: Huy Bui"
+                        class="form-control"
+                    />
+                    <span class="form-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <input
+                        id="email"
+                        name="email"
+                        type="text"
+                        placeholder="VD: email@domain.com"
+                        class="form-control"
+                    />
+                    <span class="form-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">Mật khẩu</label>
+                    <input
+                        id="password"
+                        name="password"
+                        type="password"
+                        placeholder="Nhập mật khẩu"
+                        class="form-control"
+                    />
+                    <span class="form-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="password_confirmation" class="form-label"
+                        >Nhập lại mật khẩu</label
+                    >
+                    <input
+                        id="password_confirmation"
+                        name="password_confirmation"
+                        placeholder="Nhập lại mật khẩu"
+                        type="password"
+                        class="form-control"
+                    />
+                    <span class="form-message"></span>
+                </div>
+
+                <button type="submit" class="form-submit">Đăng ký</button>
+            </form>
+        </div>
+
+        <script src="/assets/js/index.js"></script>
+        <script src="/assets/js/toast.js"></script>
+        <script>
+            Validator({
+                form: "#form-1",
+                formGroupSelector: ".form-group",
+                errorSelector: ".form-message",
+                rules: [
+                    Validator.isRequired(
+                        "#fullname",
+                        "Vui lòng nhập tên đầy đủ"
+                    ),
+                    Validator.isName("#fullname"),
+                    Validator.isRequired("#email", "Vui lòng nhập email"),
+                    Validator.isEmail("#email", "Email không hợp lệ"),
+                    Validator.isCorrectPassword("#password", 8, 32),
+                    Validator.isRequired("#password_confirmation"),
+                    Validator.isConfirmed(
+                        "#password_confirmation",
+                        function () {
+                            return document.querySelector("#form-1 #password")
+                                .value;
+                        },
+                        "Mật khẩu không khớp"
+                    ),
+                ],
+                onSubmit: function (data) {
+                    // Call API
+                    toast({
+                        title: "Thành công!",
+                        message: "Bạn đã đăng ký thành công tài khoản.",
+                        type: "success",
+                        duration: 5000,
+                    });
+                },
+            });
+        </script>
+    </body>
+</html>
